@@ -142,6 +142,7 @@ functions:
 #      variable2: value2
 plugins:
   - serverless-plugin-typescript
+  - serverless-offline
   # you can add CloudFormation resource templates here
 #resources:
 #  Resources:
