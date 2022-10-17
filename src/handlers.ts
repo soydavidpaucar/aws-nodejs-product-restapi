@@ -24,12 +24,18 @@ export const createProduct = async (event: APIGatewayProxyEvent): Promise<APIGat
       body: JSON.stringify({
         message: "Product not created",
       }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
     };
   }
 
   return {
     statusCode: 201,
     body: JSON.stringify(product),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
   };
 };
 
@@ -49,12 +55,18 @@ export const getProduct = async (event: APIGatewayProxyEvent): Promise<APIGatewa
       body: JSON.stringify({
         error: "Product not found",
       }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
     };
   }
 
   return {
     statusCode: 200,
     body: JSON.stringify(product.Item),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
   };
 };
 
@@ -87,11 +99,17 @@ export const updateProduct = async (event: APIGatewayProxyEvent): Promise<APIGat
       body: JSON.stringify({
         error: "Product not found",
       }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
     };
   }
 
   return {
     statusCode: 200,
     body: JSON.stringify(product.Attributes),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
   };
 };
