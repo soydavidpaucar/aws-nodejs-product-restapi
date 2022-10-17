@@ -7,7 +7,7 @@ const docClient: AWS.DynamoDB.DocumentClient = new AWS.DynamoDB.DocumentClient()
 export const createProduct = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
 
   const requestBody = JSON.parse(event.body as string);
-  
+
   const product = {
     ...requestBody,
     productId: v4(),
@@ -28,7 +28,7 @@ export const createProduct = async (event: APIGatewayProxyEvent): Promise<APIGat
   }
 
   return {
-    statusCode: 200,
+    statusCode: 201,
     body: JSON.stringify(product),
   };
 };
@@ -55,5 +55,43 @@ export const getProduct = async (event: APIGatewayProxyEvent): Promise<APIGatewa
   return {
     statusCode: 200,
     body: JSON.stringify(product.Item),
+  };
+};
+
+export const updateProduct = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  const productId = event.pathParameters?.id;
+  const requestBody = JSON.parse(event.body as string);
+
+  const product = await docClient.update({
+    TableName: "ProductsTable",
+    Key: {
+      productId,
+    },
+    UpdateExpression: "SET #name = :name, #description = :description, #price = :price",
+    ExpressionAttributeNames: {
+      "#name": "name",
+      "#description": "description",
+      "#price": "price",
+    },
+    ExpressionAttributeValues: {
+      ":name": requestBody.name,
+      ":description": requestBody.description,
+      ":price": requestBody.price,
+    },
+    ReturnValues: "UPDATED_NEW",
+  }).promise();
+
+  if (!product.Attributes) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({
+        error: "Product not found",
+      }),
+    };
+  }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(product.Attributes),
   };
 };
