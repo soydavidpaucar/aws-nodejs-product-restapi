@@ -1,0 +1,13 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# IDE directories
+.idea
+.vscode
+
+# OS directories
+.DS_Store
