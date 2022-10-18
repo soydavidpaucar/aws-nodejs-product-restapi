@@ -55,7 +55,7 @@ If you don't have sls installed globally, you can use npx
 
 Do a request to the following endpoints
 
-| Verb   | Ednpoint                            |
+| Verb   | Endpoint                            |
 |--------|-------------------------------------|
 | Get    | http://localhost:3000/products      |
 | Get    | http://localhost:3000/products/{id} |
