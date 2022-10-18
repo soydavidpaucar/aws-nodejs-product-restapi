@@ -88,7 +88,7 @@ functions:
     events:
       - httpApi:
           path: /products/{id}
-          method: patch
+          method: put
   deleteProduct:
     handler: src/handlers.deleteProduct
     events:
