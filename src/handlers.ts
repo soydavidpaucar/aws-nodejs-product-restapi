@@ -113,3 +113,57 @@ export const updateProduct = async (event: APIGatewayProxyEvent): Promise<APIGat
     },
   };
 };
+
+export const deleteProduct = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  const productId = event.pathParameters?.id;
+
+  const product = await docClient.get({
+    TableName: "ProductsTable",
+    Key: {
+      productId,
+    },
+  }).promise();
+
+  if (!product.Item) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({
+        error: "Product not found",
+      }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    };
+  }
+
+  await docClient.delete({
+    TableName: "ProductsTable",
+    Key: {
+      productId,
+    },
+  }).promise();
+
+  return {
+    statusCode: 204,
+    body: JSON.stringify({
+      message: "Product deleted",
+    }),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  };
+};
+
+export const listProducts = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  const products = await docClient.scan({
+    TableName: "ProductsTable",
+  }).promise();
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(products.Items),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  };
+};
