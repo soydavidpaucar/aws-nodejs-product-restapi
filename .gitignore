@@ -11,3 +11,6 @@ jspm_packages
 
 # OS directories
 .DS_Store
+
+# Build directories
+.build
